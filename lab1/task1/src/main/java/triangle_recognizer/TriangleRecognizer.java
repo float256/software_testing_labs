@@ -1,6 +1,6 @@
-package org.triangle_recognizer;
+package triangle_recognizer;
 
-import org.triangle_recognizer.pojo.Triangle;
+import triangle_recognizer.pojo.Triangle;
 
 public class TriangleRecognizer {
     public static TriangleRecognitionResult recognize(Triangle triangle) {

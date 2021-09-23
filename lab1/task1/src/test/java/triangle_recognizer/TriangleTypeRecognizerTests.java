@@ -1,8 +1,8 @@
-package org.triangle_recognizer;
+package triangle_recognizer;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.triangle_recognizer.pojo.Triangle;
+import triangle_recognizer.pojo.Triangle;
 
 public class TriangleTypeRecognizerTests {
     @Test

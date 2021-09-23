@@ -1,4 +1,4 @@
-package org.triangle_recognizer.pojo;
+package triangle_recognizer.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
