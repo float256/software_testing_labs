@@ -5,7 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.NoSuchFileException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class App 
 {
@@ -28,6 +30,8 @@ public class App
                 }
             } catch (FileNotFoundException exception) {
                 System.out.println("File not found");
+            } catch (NoSuchElementException exception) {
+                System.out.println("Incorrect file format");
             } catch (SecurityException exception) {
                 System.out.println("This program can't be run due to insecurity");
             }

@@ -1,3 +1,58 @@
-1 2 3, NotTriangle
-3 4 5, Normal
-asdjadkfhj sdjfjjk akjsdqjkejh, qwe
+asdjadkfhj sdjfjjk akjsdqjkejh, ERROR
+1, ERROR
+q, ERROR
+, ERROR
+123 /n/n 3 /n/t.z 4, ERROR
+sudo zypper refresh, ERROR
+System.out.println("AAAAAAAAAAAAAAAA"), ERROR
+exit, ERROR
+    1        2        3, NotTriangle
+        2    3       1, NotTriangle
+    3    1   2, NotTriangle
+3 4 5, RightTriangle
+-4 -5 -3, NotTriangle
+-3 -4 -5, NotTriangle
+-5 -3 -4, NotTriangle
+-4 -4 -4, NotTriangle
+2147483647 2147483647 2147483647, Equilateral
+2147483648 2147483648 2147483648, Equilateral
+21474836471826372 21474836471826372 21474836471826372, Equilateral
+3569595833013489784296057415116079555716336572464953097980150016 2677196874760117338222043061337059666787252429348714823485112512 4461994791266862230370071768895099444645420715581191372475187520, RightTriangle
+55340232221128654848 73786976294838206464 92233720368547758080, RightTriangle
+73786976294838206464 92233720368547758080 55340232221128654848, RightTriangle
+92233720368547758080 55340232221128654848 73786976294838206464, RightTriangle
+            1                2                 3, NotTriangle
+            4               3               5, RightTriangle
+   12737 12737 25474, NotTriangle
+   12737 25474 12737, NotTriangle
+   25474 12737 12737, NotTriangle
+   12737 12737 25473, Isosceles
+   12737 25473 12737, Isosceles
+   25473 12737 12737, Isosceles
+   3.5 3.5 7, NotTriangle
+   3.5 7 3.5, NotTriangle
+   7 3.5 3.5, NotTriangle
+   3.5 3.5 6, Isosceles
+   3.5 6 3.5, Isosceles
+   6 3.5 3.5, Isosceles
+      3.5  3.5  6, Isosceles
+      3.5   6   3.5, Isosceles
+      6    3.5  3.5, Isosceles
+   0.4  0.3  0.5, RightTriangle
+   0.5  0.4  0.3, RightTriangle
+   0.3  0.5  0.4, RightTriangle
+   40 -50 40, NotTriangle
+   -50 40 40, NotTriangle
+    40 40 -50, NotTriangle
+   -40 -50 40, NotTriangle
+   -50 -40 40, NotTriangle
+   -40 40 -50, NotTriangle
+   -1.2 -3.3 -4.4, NotTriangle
+   4e1000 3e1000 5e1000, RightTriangle,
+   1 1 1, Equilateral
+   0 0 0, NotTriangle
+   -1 1 1, NotTriangle
+   1 -1 1, NotTriangle
+   1 1 -1, NotTriangle
+   1e-1000 1e-1000 1e-1000, Equilateral
+   1 1 1, NotTriangle

@@ -7,7 +7,7 @@ public class TestResultsFileGenerator {
         StringBuilder testResultsInStringFormat = new StringBuilder();
         for (int currIdx = 0; currIdx < testResults.size(); currIdx++) {
             testResultsInStringFormat
-                    .append(currIdx).append(" ")
+                    .append(currIdx + 1).append(" ")
                     .append(testResults.get(currIdx).name()).append("\n");
         }
         return testResultsInStringFormat.toString();

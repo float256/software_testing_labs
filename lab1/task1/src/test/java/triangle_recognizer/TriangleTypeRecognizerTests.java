@@ -2,41 +2,44 @@ package triangle_recognizer;
 
 import org.junit.Assert;
 import org.junit.Test;
-import triangle_recognizer.pojo.Triangle;
+import triangle_recognizer.entities.Triangle;
+import triangle_recognizer.entities.TriangleRecognitionResult;
+
+import java.math.BigDecimal;
 
 public class TriangleTypeRecognizerTests {
     @Test
     public void testNotATriangle() {
         TriangleRecognitionResult recognitionResult = TriangleRecognizer
-                .recognize(new Triangle(3, 1, 2));
+                .recognize(new Triangle(BigDecimal.valueOf(3), BigDecimal.valueOf(1), BigDecimal.valueOf(2)));
         Assert.assertEquals(recognitionResult, TriangleRecognitionResult.NotTriangle);
     }
 
     @Test
     public void testIncorrectSide() {
         TriangleRecognitionResult recognitionResult = TriangleRecognizer
-                .recognize(new Triangle(2, 1, -1));
+                .recognize(new Triangle(BigDecimal.valueOf(2), BigDecimal.valueOf(1), BigDecimal.valueOf(-1)));
         Assert.assertEquals(recognitionResult, TriangleRecognitionResult.NotTriangle);
     }
 
     @Test
     public void testNormalTriangle() {
         TriangleRecognitionResult recognitionResult = TriangleRecognizer.recognize(
-                new Triangle(308, 501, 302));
+                new Triangle(BigDecimal.valueOf(308), BigDecimal.valueOf(501), BigDecimal.valueOf(302)));
         Assert.assertEquals(recognitionResult, TriangleRecognitionResult.Normal);
     }
 
     @Test
     public void testIsoscelesTriangle() {
         TriangleRecognitionResult recognitionResult = TriangleRecognizer.recognize(
-                new Triangle(123, 123, 6));
+                new Triangle(BigDecimal.valueOf(123), BigDecimal.valueOf(123), BigDecimal.valueOf(6)));
         Assert.assertEquals(recognitionResult, TriangleRecognitionResult.Isosceles);
     }
 
     @Test
     public void testEquilateralTriangle() {
         TriangleRecognitionResult recognitionResult = TriangleRecognizer.recognize(
-                new Triangle(1234, 1234, 1234));
+                new Triangle(BigDecimal.valueOf(1234), BigDecimal.valueOf(1234), BigDecimal.valueOf(1234)));
         Assert.assertEquals(recognitionResult, TriangleRecognitionResult.Equilateral);
     }
 }

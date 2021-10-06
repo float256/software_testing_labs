@@ -17,7 +17,13 @@ public class TestCasesParser {
             scanner.useDelimiter(",");
 
             String commandLineArguments = scanner.next();
-            String expectedOutput = scanner.next();
+            String expectedOutput;
+            if (scanner.hasNext()) {
+                expectedOutput = scanner.next();
+            } else {
+                expectedOutput = commandLineArguments;
+                commandLineArguments = "";
+            }
 
             if (scanner.hasNext()) {
                 throw new TestCasesParserException("Incorrect file format");
