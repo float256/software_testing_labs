@@ -1,7 +1,4 @@
-package triangle_recognizer.entities;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+package triangle_recognizer;
 
 import java.math.BigDecimal;
 

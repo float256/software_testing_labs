@@ -1,4 +1,4 @@
-package triangle_recognizer.entities;
+package triangle_recognizer;
 
 public enum TriangleRecognitionResult {
     Normal,

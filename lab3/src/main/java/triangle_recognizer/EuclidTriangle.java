@@ -1,8 +1,10 @@
-package triangle_recognizer.entities;
+package triangle_recognizer;
 
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 @Getter
 public class EuclidTriangle implements Triangle {
@@ -14,11 +16,23 @@ public class EuclidTriangle implements Triangle {
         this.firstSide = firstSide;
         this.secondSide = secondSide;
         this.thirdSide = thirdSide;
+
+        if (getType() == TriangleRecognitionResult.NotTriangle) {
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
     public BigDecimal computeArea() {
-        return null;
+        BigDecimal semiPerimeter = firstSide.add(secondSide).add(thirdSide)
+                .divide(BigDecimal.valueOf(2));
+        BigDecimal semiPerimeterSubtractFirstSide = semiPerimeter.subtract(firstSide);
+        BigDecimal semiPerimeterSubtractSecondSide = semiPerimeter.subtract(secondSide);
+        BigDecimal semiPerimeterSubtractThirdSide = semiPerimeter.subtract(thirdSide);
+        return semiPerimeter.multiply(semiPerimeterSubtractFirstSide)
+                .multiply(semiPerimeterSubtractSecondSide)
+                .multiply(semiPerimeterSubtractThirdSide)
+                .sqrt(new MathContext(2));
     }
 
     @Override
