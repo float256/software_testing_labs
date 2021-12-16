@@ -1,6 +1,4 @@
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-import lombok.Data;
 import okhttp3.*;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -8,7 +6,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -149,7 +146,11 @@ public class TestProductApi {
         return new Object[][]{
                 {VALID_PRODUCT_FOLDER + "/firstAdditionTestingValid.json"},
                 {VALID_PRODUCT_FOLDER + "/secondAdditionTestingValid.json"},
-                {VALID_PRODUCT_FOLDER + "/thirdAdditionTestingValid.json"}
+                {VALID_PRODUCT_FOLDER + "/thirdAdditionTestingValid.json"},
+                {INVALID_AUTOFIXED_PRODUCT_FOLDER + "/invalidProductWithHitEquals3.json"},
+                {INVALID_AUTOFIXED_PRODUCT_FOLDER + "/invalidProductWithHitEquals-1.json"},
+                {INVALID_AUTOFIXED_PRODUCT_FOLDER + "/invalidProductWithStatusEquals2.json"},
+                {INVALID_AUTOFIXED_PRODUCT_FOLDER + "/invalidProductWithStatusEquals-1.json"},
         };
     }
 
