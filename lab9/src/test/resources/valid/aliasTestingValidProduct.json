@@ -1,0 +1,13 @@
+{
+  "id": 1,
+  "category_id": 8,
+  "title": "Тест 123&45",
+  "alias": "test-123-and-45",
+  "content": "text",
+  "price": 9,
+  "old_price": 10,
+  "status": 0,
+  "keywords": "keyword",
+  "description": "description",
+  "hit": 1
+}
