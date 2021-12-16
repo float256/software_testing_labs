@@ -24,6 +24,8 @@ public class TestProductApi {
     public final String INVALID_PRODUCT_FOLDER = RESOURCES_FOLDER + "/invalid";
     public final String INVALID_THROWABLE_PRODUCT_FOLDER = INVALID_PRODUCT_FOLDER + "/throwable";
     public final String INVALID_AUTOFIXED_PRODUCT_FOLDER = INVALID_PRODUCT_FOLDER + "/autofixed";
+    public final String UPDATE_TEST_PRODUCT = VALID_PRODUCT_FOLDER + "/updateTestingValidProduct.json";
+    public final String ALIAS_TESTING_PRODUCT = VALID_PRODUCT_FOLDER + "/aliasTestingValidProduct.json";
 
     private final List<Product> needsToBeDeleted = new ArrayList<>();
     private OkHttpClient client;
@@ -33,7 +35,7 @@ public class TestProductApi {
         client = new OkHttpClient();
     }
 
-    @Test(description = "Receiving all products and checking that they are all in the correct format")
+    @Test(description = "Receiving all products and checking that they are all in the correct format", priority = 1)
     public void testGetAll() {
         Request request = new Request.Builder()
                 .url(GET_ALL_PRODUCTS_ENDPOINT_URL)
@@ -48,7 +50,8 @@ public class TestProductApi {
 
     @Test(
             dataProvider = "addValidProductDataProvider",
-            description = "Add valid product to database and check that it can be obtained from getAll response"
+            description = "Add valid product to database and check that it can be obtained from getAll response",
+            priority = 1
     )
     public void testAddValidProduct(String requestFilename) throws IOException {
         System.out.println("Processed file is: " + requestFilename);
@@ -70,9 +73,12 @@ public class TestProductApi {
         });
     }
 
-    @Test(description = "Test that alias is changed if there are value with this alias")
+    @Test(
+            description = "Test that alias is changed if there are value with this alias",
+            priority = 1
+    )
     public void testAliasSuffixAddition() throws IOException {
-        String fileContent = Files.readString(Path.of(VALID_PRODUCT_FOLDER + "/aliasTestingValidProduct.json"));
+        String fileContent = Files.readString(Path.of(ALIAS_TESTING_PRODUCT));
         RequestBody requestBody = RequestBody.create(fileContent.getBytes());
         Request request = new Request.Builder()
                 .url(ADD_PRODUCT_ENDPOINT_URL)
@@ -102,7 +108,8 @@ public class TestProductApi {
 
     @Test(
             description = "Test that product with incorrect field which can't be fixed automatically can't be saved",
-            dataProvider = "invalidThrowableProductDataProvider"
+            dataProvider = "invalidThrowableProductDataProvider",
+            priority = 1
     )
     public void testInvalidThrowable(String requestFilename) throws IOException {
         System.out.println("Processed file is: " + requestFilename);
@@ -121,26 +128,37 @@ public class TestProductApi {
         });
     }
 
-    @Test(description = "Test that after updating changed product can be receiving from getAll endpoint")
-    public void testProductUpdating() {
-        Optional<Product> productForChanging = needsToBeDeleted.stream().findFirst();
+    @Test(
+            description = "Test that after updating changed product can be receiving from getAll endpoint",
+            priority = 2
+    )
+    public void testProductUpdating() throws IOException {
+        Optional<Integer> updatedProductId = needsToBeDeleted.stream()
+                .map(Product::getId)
+                .findFirst();
+        Gson gson = new Gson();
 
-        if (productForChanging.isPresent()) {
-            Gson gson = new Gson();
-            String serializedRequest = gson.toJson(productForChanging.get());
-            RequestBody requestBody = RequestBody.create(serializedRequest.getBytes());
+        if (updatedProductId.isPresent()) {
+            Product updatedProduct = gson.fromJson(
+                    Files.readString(Path.of(UPDATE_TEST_PRODUCT)),
+                    Product.class
+            );
+            updatedProduct.setId(updatedProductId.get());
+
+            RequestBody requestBody = RequestBody.create(gson.toJson(updatedProduct).getBytes());
             Request request = new Request.Builder()
                     .url(EDIT_PRODUCT_ENDPOINT_URL)
                     .post(requestBody)
                     .build();
 
             wrapConnection(request, responseBody ->
-                    Assert.assertEquals(productForChanging.get(), getById(productForChanging.get().getId()).get()));
+                    Assert.assertEquals(updatedProduct, getById(updatedProductId.get()).get()));
         }
     }
 
-    @Test(description = "Test that deleted products can't be obtained from getAll response", priority = 2)
+    @Test(description = "Test that deleted products can't be obtained from getAll response", priority = 3)
     public void testDeleteProduct() {
+        System.out.println("Delete is called");
         List<Integer> productIdsForDeleting = needsToBeDeleted.stream()
                 .distinct()
                 .map(Product::getId)

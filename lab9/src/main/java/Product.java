@@ -1,12 +1,11 @@
 import com.google.gson.annotations.SerializedName;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = "alias")
+@ToString
 public class Product {
     @SerializedName("id")
     private int id;
