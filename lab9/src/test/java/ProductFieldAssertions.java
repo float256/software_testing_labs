@@ -1,8 +1,13 @@
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import static org.testng.Assert.assertTrue;
 
+@EqualsAndHashCode
+@ToString
 public class ProductFieldAssertions {
     public static void assertIsValid(Product[] products) {
-        for (Product product: products) {
+        for (Product product : products) {
             assertIsValid(product);
         }
     }

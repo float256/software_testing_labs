@@ -121,7 +121,25 @@ public class TestProductApi {
         });
     }
 
-    @Test(description = "Test that deleted products can't be obtained from getAll response", priority = 1)
+    @Test(description = "Test that after updating changed product can be receiving from getAll endpoint")
+    public void testProductUpdating() {
+        Optional<Product> productForChanging = needsToBeDeleted.stream().findFirst();
+
+        if (productForChanging.isPresent()) {
+            Gson gson = new Gson();
+            String serializedRequest = gson.toJson(productForChanging.get());
+            RequestBody requestBody = RequestBody.create(serializedRequest.getBytes());
+            Request request = new Request.Builder()
+                    .url(EDIT_PRODUCT_ENDPOINT_URL)
+                    .post(requestBody)
+                    .build();
+
+            wrapConnection(request, responseBody ->
+                    Assert.assertEquals(productForChanging.get(), getById(productForChanging.get().getId()).get()));
+        }
+    }
+
+    @Test(description = "Test that deleted products can't be obtained from getAll response", priority = 2)
     public void testDeleteProduct() {
         List<Integer> productIdsForDeleting = needsToBeDeleted.stream()
                 .distinct()
