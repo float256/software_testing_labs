@@ -44,8 +44,19 @@ public class TestProductApi {
 
         wrapConnection(request, responseBody -> {
             Product[] products = new Gson().fromJson(responseBody, Product[].class);
-            ProductFieldAssertions.assertIsValid(products);
+            ProductFieldValidator.validate(products);
         });
+    }
+
+    @Test(
+            description = "Test invalid auto fixed data throws exception due to validation",
+            priority = 1,
+            dataProvider = "invalidAutoFixedDataProvider"
+    )
+    public void testInvalidAutoFixed(String requestFilename) throws IOException {
+        String fileContent = Files.readString(Path.of(requestFilename));
+        Product product = new Gson().fromJson(fileContent, Product.class);
+        Assert.assertThrows(() -> ProductFieldValidator.validate(product));
     }
 
     @Test(
@@ -67,7 +78,7 @@ public class TestProductApi {
             ProductAddResponse deserializedResponse = gson.fromJson(responseBody, ProductAddResponse.class);
             Optional<Product> product = getById(deserializedResponse.getId());
             Assert.assertTrue(product.isPresent(), "Added value can't be found.");
-            ProductFieldAssertions.assertIsValid(product.get());
+            ProductFieldValidator.validate(product.get());
 
             this.needsToBeDeleted.add(product.get());
         });
@@ -90,13 +101,13 @@ public class TestProductApi {
             ProductAddResponse firstDeserializedResponse = gson.fromJson(firstResponseBody, ProductAddResponse.class);
             Optional<Product> firstAddedProduct = getById(firstDeserializedResponse.getId());
             firstAddedProduct.ifPresent(needsToBeDeleted::add);
-            ProductFieldAssertions.assertIsValid(firstAddedProduct.get());
+            ProductFieldValidator.validate(firstAddedProduct.get());
 
             wrapConnection(request, secondResponseBody -> {
                 ProductAddResponse secondDeserializedResponse = gson.fromJson(secondResponseBody, ProductAddResponse.class);
                 Optional<Product> secondAddedProduct = getById(secondDeserializedResponse.getId());
                 secondAddedProduct.ifPresent(needsToBeDeleted::add);
-                ProductFieldAssertions.assertIsValid(secondAddedProduct.get());
+                ProductFieldValidator.validate(secondAddedProduct.get());
 
                 Assert.assertNotEquals(
                         getById(firstDeserializedResponse.getId()).get().getAlias(),
@@ -167,8 +178,7 @@ public class TestProductApi {
             Request request = new Request.Builder()
                     .url(DELETE_PRODUCT_ENDPOINT_URL + id.toString())
                     .build();
-            wrapConnection(request, (requestBody) -> {
-            });
+            wrapConnection(request, (requestBody) -> {});
         }
 
         Set<Integer> notDeletedByError = getAll().stream().map(Product::getId).collect(Collectors.toSet());
@@ -182,11 +192,17 @@ public class TestProductApi {
         return new Object[][]{
                 {VALID_PRODUCT_FOLDER + "/firstAdditionTestingValid.json"},
                 {VALID_PRODUCT_FOLDER + "/secondAdditionTestingValid.json"},
-                {VALID_PRODUCT_FOLDER + "/thirdAdditionTestingValid.json"},
+                {VALID_PRODUCT_FOLDER + "/thirdAdditionTestingValid.json"}
+        };
+    }
+
+    @DataProvider
+    private Object[][] invalidAutoFixedDataProvider() {
+        return new Object[][]{
                 {INVALID_AUTOFIXED_PRODUCT_FOLDER + "/invalidProductWithHitEquals3.json"},
                 {INVALID_AUTOFIXED_PRODUCT_FOLDER + "/invalidProductWithHitEquals-1.json"},
                 {INVALID_AUTOFIXED_PRODUCT_FOLDER + "/invalidProductWithStatusEquals2.json"},
-                {INVALID_AUTOFIXED_PRODUCT_FOLDER + "/invalidProductWithStatusEquals-1.json"},
+                {INVALID_AUTOFIXED_PRODUCT_FOLDER + "/invalidProductWithStatusEquals-1.json"}
         };
     }
 

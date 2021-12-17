@@ -5,14 +5,14 @@ import static org.testng.Assert.assertTrue;
 
 @EqualsAndHashCode
 @ToString
-public class ProductFieldAssertions {
-    public static void assertIsValid(Product[] products) {
+public class ProductFieldValidator {
+    public static void validate(Product[] products) {
         for (Product product : products) {
-            assertIsValid(product);
+            validate(product);
         }
     }
 
-    public static void assertIsValid(Product product) {
+    public static void validate(Product product) {
         assertTrue(isCategoryIdValid(product),
                 String.format("Invalid categoryId=%s. It must be in range 1 to 15", product.getCategoryId()));
         assertTrue(isStatusValid(product),
